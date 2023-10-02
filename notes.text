@@ -1,0 +1,24 @@
+let drumMap = map(drum,0,100,40,100);
+let lengthOfLine= 100;
+let lineStart = 0;
+let lineEnd = lineStart+lengthOfLine;
+
+
+for(let i= 1; i<= drumMap; i++){
+  let lineStep = i*10;
+  line(lineStart,lineStep,lineEnd,lineStep);
+  
+}
+
+strokeWeight(1);
+let bassmap =map(bass,0,100,40,100);
+let ballsize = 10 ;
+let ballx = 150;
+let bally =0;
+
+
+for(let i= 1; i<= bassmap; i++){
+  let ballStep =i*11;
+  ellipse (ballx,ballStep,ballsize)
+}
+ 
