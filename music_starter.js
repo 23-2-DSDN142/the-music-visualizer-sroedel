@@ -337,11 +337,13 @@ fill("white")
 // right knob base location = 190
 // right knob offset = map(drum, 0, 100, -100, 100)
 // let knowFancyLocation = RKBL + RKO 
-let LKnobY = map(bass, 0, 100, 680,780)
 
 
-// high680/// low780
-rect(780,LKnobY,20,30)
+// let LKnobY = map(bass, 0, 100, 680,780)
+
+
+// // high680/// low780
+// rect(780,LKnobY,20,30)
 
 
 
