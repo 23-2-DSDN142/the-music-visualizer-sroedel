@@ -24,12 +24,16 @@ let scalestart= 77
 let movetime=74
 let recordend=85
 
+//move play head
+
+
 
 function rotateAbout(spinx, spiny, angle) {
   translate(spinx, spiny);
   rotate(angle);
   translate(-spinx, -spiny);
 }
+
 
 function draw_one_frame(words, vocal, drum, bass, other, counter) {
   background("black");
@@ -55,8 +59,6 @@ let lineLength= 100;
   let lineEnd = lineStart + lineLength;
 
  
-  
-
 
 //drums
     strokeWeight(8);
@@ -96,6 +98,10 @@ let lineLength= 100;
         line(lineStart,lineStep,lineEnd,lineStep);
       }
       pop();
+
+
+
+
 
 
 //bass
@@ -266,13 +272,26 @@ image(recordImg,0,0);//draw image
 }
 pop();
 
+
 //playhead
 push();
+
+
+if (song.currentTime() >73){
+rotate(-45)
+translate(-410,500)
+}
+
+
 if (song.currentTime() >movetime){
 translate(x,0);
 x=x+moveplayer}
+
+
 image(playheadImg,0,0);
 pop();
+
+
 
 //new background
 noStroke()
@@ -307,6 +326,29 @@ if(song.currentTime() > 80 && song.currentTime() <recordend)
 ellipse(500,500,120,120)}//draw image
 pop();
 
+
+
+//knobs
+push()
+if (song.currentTime() >movetime){
+  translate(x,0);
+  x=x+moveplayer}
+strokeWeight(2)
+stroke("black")
+fill("white")
+
+//left Knob
+let LKnobY = map(bass, 0, 100, 780,680) // high780/// low680
+rect(781,LKnobY,20,30)
+
+//Right Knob
+let RKnobY = map(vocal, 0, 100, 780,680)// high780/// low680
+rect(817,RKnobY,20,30)
+
+pop()
+
+
+
 //planet
 push();
 noStroke()
@@ -323,32 +365,11 @@ push();
 
 translate(x,y);
 
-    if(song.currentTime()>83.5){
-      x=x+2;
+    if(song.currentTime()>82){
+      x=x+1;
       image(lineImg,-18700,150)}
   
 pop();
-
-strokeWeight(2)
-stroke("black")
-fill("white")
-
-
-// right knob base location = 190
-// right knob offset = map(drum, 0, 100, -100, 100)
-// let knowFancyLocation = RKBL + RKO 
-
-
-// let LKnobY = map(bass, 0, 100, 680,780)
-
-
-// // high680/// low780
-// rect(780,LKnobY,20,30)
-
-
-
-
-
 
 
 
