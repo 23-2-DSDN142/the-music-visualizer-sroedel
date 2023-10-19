@@ -1,5 +1,6 @@
 
 // vocal, drum, bass, and other are volumes ranging from 0 to 100
+//Images
 let firstRun= true
 let lineImg;
 let testImg;
@@ -7,6 +8,26 @@ let planetImg;
 let recordplayerImg;
 let recordImg;
 let playheadImg;
+let personImg;
+let purplepersonImg;
+let backgroundImg;
+let satelliteImg;
+let noswirlImg;
+let swirlImg;
+
+
+
+
+
+
+
+//record player
+let scalepace=.023
+let colorchange=62
+let moveplayer=2
+let scalestart= 77
+let movetime=75
+let recordend=87
 let angle =0;
 let x=50;
 let y=50;
@@ -15,19 +36,15 @@ let spiny = 500;
 let size=1
 let patternsize=70;
 let test =1;
-
-//record player
-let scalepace=.023
-let colorchange=62
-let moveplayer=2
-let scalestart= 77
-let movetime=74
-let recordend=85
-
-//move play head
+let movex=0
+let movey=0
+let a=0
+let b=0
+let yPosition = 500;
 
 
 
+//rotation function
 function rotateAbout(spinx, spiny, angle) {
   translate(spinx, spiny);
   rotate(angle);
@@ -41,6 +58,7 @@ function draw_one_frame(words, vocal, drum, bass, other, counter) {
   angleMode(DEGREES);
   colorMode(HSB, 100)
 
+  //images
 if(firstRun){
   rectMode(CENTER);
   planetImg= loadImage('planet.png');
@@ -49,6 +67,12 @@ if(firstRun){
   recordplayerImg=loadImage('recordplayer.png');
   recordImg=loadImage('record.png')
   playheadImg=loadImage('playhead.png')
+  personImg=loadImage('reachingup.png')
+  purplepersonImg=loadImage('reachinguppurple.png')
+  backgroundImg=loadImage('backgroundtest.png')
+  noswirl=loadImage('noswirl.png')
+  swirl=loadImage('swirl.png')
+  satelliteImg=loadImage('satellite.png')
   firstRun = false
 }
 
@@ -68,13 +92,13 @@ let lineLength= 100;
       stroke (vocal,850,80)
       }
 
-
+      //top left
       let drumMap =map(drum,0,100,0,15);
       for(let i=1; i<=drumMap; i++){
         let lineStep = i*10;
         line(lineStart,lineStep,lineEnd,lineStep);
       }
-
+      //top Right
       push();
       translate(0,1000)
       for(let i=1; i<=drumMap; i++){
@@ -82,7 +106,7 @@ let lineLength= 100;
         line(lineStart,lineStep,lineEnd,lineStep);
       }
       pop();
-
+      //bttom left
       push();
       translate(900,0)
       for(let i=1; i<=drumMap; i++){
@@ -90,7 +114,7 @@ let lineLength= 100;
         line(lineStart,lineStep,lineEnd,lineStep);
       }
       pop();
-
+      //bottom right
       push();
       translate(900,1000)
       for(let i=1; i<=drumMap; i++){
@@ -120,7 +144,7 @@ let lineLength= 100;
     }
     pop();
 
-    //top right
+    //top left
     push();
     translate(750,0)
     for(let i=1; i<=bassMap; i++){
@@ -216,17 +240,6 @@ strokeWeight(8);
     }
     pop();
     
-// planet
-//   fill ("#A200FF");
-//   stroke ("#A200FF");
-//   if(song.currentTime()>colorchange){
-//   stroke (bass,850,80)
-//   }
-//   translate(0,0);
-//   if(song.currentTime()>colorchange){
-//     ellipse(500,500,500,500)
-//   }
-    
 
 
 
@@ -236,25 +249,24 @@ push();
 stroke ("black");
 fill("#00FBFF");
 if(song.currentTime()>colorchange){
-  fill (vocal,850,80)}
+  fill (vocal,850,80)}//change color
   if (song.currentTime() >movetime){
-    translate(x,0);
-    x=x+moveplayer}
+    translate(x,0); 
+    x=x+moveplayer} //move for transition
 
 rect(500,500,828,733);
 pop();
 
-//body image 
+//record body image 
 push();
 if (song.currentTime() >movetime){
   translate(x,0);
-  x=x+moveplayer}
-image(recordplayerImg,0,0);
+  x=x+moveplayer}//move for transition
+image(recordplayerImg,0,0);//make appear
 pop();
 
 
 //disk
-
 push();
 if (song.currentTime() > 0 && song.currentTime() < 90){
 rotateAbout(spinx, spiny,angle);
@@ -275,19 +287,13 @@ pop();
 
 //playhead
 push();
-
-
-if (song.currentTime() >73){
+if (song.currentTime() >movetime){
 rotate(-45)
 translate(-410,500)
 }
-
-
 if (song.currentTime() >movetime){
 translate(x,0);
 x=x+moveplayer}
-
-
 image(playheadImg,0,0);
 pop();
 
@@ -297,7 +303,10 @@ pop();
 noStroke()
 fill("black")
 if (song.currentTime() >80){
-rect(500,500,1000,1000)}
+// rect(500,500,1000,1000)
+image(noswirl,0,0)
+image(swirl,0,0)
+}
 
 
 
@@ -332,7 +341,7 @@ pop();
 push()
 if (song.currentTime() >movetime){
   translate(x,0);
-  x=x+moveplayer}
+  x=x+moveplayer}//remove player from record
 strokeWeight(2)
 stroke("black")
 fill("white")
@@ -349,92 +358,94 @@ pop()
 
 
 
+
+
+
+
+
+//person reaching
+let personmove=2.5
+push()
+if (song.currentTime()>83 && yPosition > 200) {
+  yPosition-=personmove; 
+}//bring up
+if (song.currentTime()>83){ 
+image(personImg,475,yPosition)//make appeare
+}
+pop()
+
+
 //planet
+colorMode(RGB, 255)
+let pink =color("#A200FF")
+let darkpink=color("#7002c4")
+let planetColormap = map(drum, 50,100, 0,1)
+let planetColor = lerpColor(pink,darkpink,planetColormap)
 push();
+fill("#A200FF")//intial pink
 noStroke()
-fill("#A200FF")
+if(song.currentTime()>113){//intial planet color change
+  fill(planetColor)
+  stroke(planetColor) 
+  }
+  if(song.currentTime()>153){//planet color change bridge
+    colorMode(HSB, 100)
+    stroke(drum,850,80)
+    fill (drum,850,80)
+  }
 if(song.currentTime() > 83)
 {
-ellipse(500,500,400,400)}
+ellipse(500,500,400,400)}//new planet load
 pop();
+
 
 
 
 //Planet Texture
+let texturemove=2
 push();
-
-translate(x,y);
-
-    if(song.currentTime()>82){
-      x=x+1;
-      image(lineImg,-18700,150)}
-  
+//planet moves start
+translate(movex,0);
+    if(song.currentTime()>84.9){
+      translate(movex,0);
+      movex=movex+texturemove;
+      }
+      if(song.currentTime()>85){
+      image(lineImg,-19700,294)}
 pop();
 
 
 
 
-// right knob base location = 770
-
-// let knowFancyLocation = RKBL + RKO 
 
 
 
+//background 2
+push()
+if (song.currentTime() >85){
+  image(noswirl,0,0)//load image
+  }
+  pop()
 
+  //swirl
+let swirlrotation=1.5
+  push()
+  if (song.currentTime() >85){
+  translate(500,500)
+  rotate(a)
+  translate(-500,-500)
+  a=a-swirlrotation;}// rotation
 
-
-// push();
-// rotateAbout(spinx, spiny,angle);
-// angle=angle+1;
-// image(planetImg,0,0);
-// pop();
-
-// push();
-// rectMode(CENTER);
-// rotate(angle);
-// image(testImg,200,200)
-// angle=angle+1;
-// pop();
-
-
-
-// let yellowColor = color(75, 66, 245);
-
-
-// let blueColor = color(226, 56, 245);
-
-// let colorChange = map(vocal, 0,100, 0,1)
-// let blendedColor = lerpColor(yellowColor,blueColor, colorChange)
-
-
-//circle
-
-
-
-
-
-
-
-
-  // //Dots
-  // colorMode(RGB, 255)
-  // fill(blendedColor)
-  // strokeWeight(1);
-
-
-
-
-
-  // let bassmap =map(bass,0,100,40,100);
-  // let ballsize = 10;
-  // let ballx = 150;
-  // let bally =200;
-
+  if (song.currentTime() >85){
+  image(swirl,0,0)}//load image
+pop()
   
-  // for(let i= 1; i<= bassmap; i++){
-  //   let ballStep =i*11;
-  //   ellipse (ballx,ballStep,ballsize)
-  // }
+
+  //person 2
+push()
+if(song.currentTime()>85){
+  image(personImg,475, 197)}
+pop()
 
 
 
@@ -442,29 +453,76 @@ pop();
 
 
 
-// //rectangle
-// translate(x,y);
-// rotate(angle);
-// rect(0,0,100,50);
-// rectMode(CENTER);
-// angle=angle+1;
-
-// if(song.currentTime()>1){
-// x=x+2;}
 
 
 
-// if(song.currentTime() > 3 && song.currentTime() < 10){
-// angle=angle +5;
-// }
+//stars drum
+colorMode(RGB, 255)
+let purple = color("#2f2c33");
+let white = color("#FFFFFF");
+let colorChange = map(drum, 70,100, 0,1)
+let blendedColor = lerpColor(purple,white,colorChange)
+if(song.currentTime()>93){
+colorMode(RGB, 255)
+fill(blendedColor)
+strokeWeight(1);
+ellipse(200,200,10,10)
+ellipse(50,50,5,5)
+ellipse(900,70,15,15)
+ellipse(870,270,7,7)
+ellipse(550,100,9,9)
+ellipse(330,90,13,13)
+ellipse(85,400,11,11)
+ellipse(200,500,7)
+ellipse(140,700,15)
+ellipse(30,900,10)
+ellipse(450,800,6)
+ellipse(300,850,11)
+ellipse(700,940,9)
+ellipse(800,820,15)
+ellipse(800,620,8)
+ellipse(950,450,10)
+ellipse(900,579,5)
+ellipse(900,950,5)
+}
 
-// if(song.currentTime())
-// if(x>1060){
-// x=-40
-// }
-//  if (song.currentTime() > 10){
-//   angle=0
-//  }
+//stars 2 bass
+colorMode(RGB, 255)
+let colorChange2 = map(bass, 70,100, 0,1)
+let blendedColor2 = lerpColor(purple,white,colorChange2)
+if(song.currentTime()>93){
+fill(blendedColor2)
+ellipse(110,118,8)
+ellipse(220,350,13)
+ellipse(20,600,6)
+ellipse(200,940,8)
+ellipse(530,890,13)
+ellipse(910,740,9)
+ellipse(745,210,12)
+ellipse(800,430,5)
+ellipse(720,50,5)
+ellipse(720,50,5)
+}
+
+//satellite
+let satelliterotation=2
+push()
+  if (song.currentTime() >110 && song.currentTime() <218){
+  translate(500,500)
+  rotate(b)
+  translate(-500,-500)
+  b=b+satelliterotation;}// rotation
+  if (song.currentTime() >110 && song.currentTime() <218){
+image(satelliteImg,0,0)}//place image
+pop()
+
+
+
+
+
+
+
+
 
 
 
@@ -477,6 +535,3 @@ pop();
 
 }
 
-// right knob base location = 190
-// right knob offset = map(drum, 0, 100, -100, 100)
-// let knowFancyLocation = RKBL + RKO 
