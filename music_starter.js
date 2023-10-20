@@ -517,21 +517,5 @@ image(satelliteImg,0,0)}//place image
 pop()
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
